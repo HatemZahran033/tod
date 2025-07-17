@@ -29,35 +29,35 @@ body {
   height: 100%;
 }
 
-/* إصلاح وضع ملء الشاشة */
+/* تعديل وضع ملء الشاشة ليبقى أفقي */
 :-webkit-full-screen #player-container {
-  width: 100vw !important;
-  height: 100vh !important;
-  transform: none !important;
+  width: 100vh !important;
+  height: 100vw !important;
+  transform: rotate(90deg) translateY(-100%) !important;
   top: 0 !important;
   left: 0 !important;
 }
 
 :-moz-full-screen #player-container {
-  width: 100vw !important;
-  height: 100vh !important;
-  transform: none !important;
+  width: 100vh !important;
+  height: 100vw !important;
+  transform: rotate(90deg) translateY(-100%) !important;
   top: 0 !important;
   left: 0 !important;
 }
 
 :-ms-fullscreen #player-container {
-  width: 100vw !important;
-  height: 100vh !important;
-  transform: none !important;
+  width: 100vh !important;
+  height: 100vw !important;
+  transform: rotate(90deg) translateY(-100%) !important;
   top: 0 !important;
   left: 0 !important;
 }
 
 :fullscreen #player-container {
-  width: 100vw !important;
-  height: 100vh !important;
-  transform: none !important;
+  width: 100vh !important;
+  height: 100vw !important;
+  transform: rotate(90deg) translateY(-100%) !important;
   top: 0 !important;
   left: 0 !important;
 }
@@ -152,12 +152,12 @@ playerInstance.setup({
   sharing: false
 });
 
-// إصلاح وضع ملء الشاشة
+// إصلاح وضع ملء الشاشة ليبقى أفقي
 playerInstance.on('fullscreen', function(state) {
   if (state.fullscreen) {
-    document.getElementById('player-container').style.transform = 'none';
-    document.getElementById('player-container').style.width = '100vw';
-    document.getElementById('player-container').style.height = '100vh';
+    document.getElementById('player-container').style.width = '100vh';
+    document.getElementById('player-container').style.height = '100vw';
+    document.getElementById('player-container').style.transform = 'rotate(90deg) translateY(-100%)';
     document.getElementById('player-container').style.top = '0';
     document.getElementById('player-container').style.left = '0';
   } else {
