@@ -3,7 +3,7 @@
 <meta name="robots" content="noindex, nofollow" />
 <meta name="referrer" content="no-referrer" />
 <style>
-	
+  
 body {
   margin: 0;
   padding: 0;
@@ -63,6 +63,28 @@ body {
   height: 100% !important;
   object-fit: fill !important;
 }
+
+/* العلامة المائية النصية */
+.storm-text-watermark {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  z-index: 100;
+  color: rgba(255, 255, 255, 0.7);
+  font-family: 'Arial', sans-serif;
+  font-size: 14px;
+  font-weight: bold;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+  padding: 5px 10px;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.storm-text-watermark:hover {
+  color: rgba(255, 255, 255, 0.9);
+  background: rgba(0, 0, 0, 0.7);
+}
 </style>
 
 <script src="//ssl.p.jwpcdn.com/player/v/8.26.0/jwplayer.js"></script>
@@ -88,6 +110,9 @@ var getIMG = getParameterByName('img');
 
 <div id="player"></div>
 
+<!-- العلامة المائية النصية العلوية فقط -->
+<div class="storm-text-watermark">STORM CONNECT</div>
+
 <script>
 var playerInstance = jwplayer("player");
 
@@ -96,7 +121,7 @@ playerInstance.setup({
     "sources": [{
       "default": false,
       "type": "dash",
-      "file": "https://todtv-live-spo-prod.akamaized.net/Content/Channel/svc-spo-hd-15-dt/DASH/hdntl=exp=1752758051~acl=*%2fContent%2fChannel%2fsvc-spo-hd-15-dt%2fDASH%2f*~id=ac831a66-bfba-4ff9-9b90-2c8c9f10ef8e~data=hdntl,aXA9MTU2LjE5OS44LjIzNA~hmac=ee43bf415de61d4965d4717659e367b8cec607f0f4776ffd8f0ee1c79b95cdaf/playlist_ha.mpd?start=1752741064000&end=1752762600000",
+      "file": "https://todtv-live-spo-prod.akamaized.net/Content/Channel/svc-spo-hd-15-dt/DASH/hdntl=exp=1752780415~acl=*%2fContent%2fChannel%2fsvc-spo-hd-15-dt%2fDASH%2f*~id=ac831a66-bfba-4ff9-9b90-2c8c9f10ef8e~data=hdntl,aXA9MTU2LjE5OS44LjIzNA~hmac=02092cd65c3770d0acab52c9174359e87fb6fdebcb98abb1b08a1ce8b2ec42b9/playlist_ha.mpd?start=1752760911000&end=1752765648000",
       "drm": {
         "clearkey": { 
           "keyId": "fa58e7eb3a4d36949c71ac3ef6e869d8", 
@@ -109,7 +134,7 @@ playerInstance.setup({
   width: "100%",
   height: "100%",
   autostart: false,
-  controls: true,  // تأكيد عرض أدوات التحكم
+  controls: true,
   cast: {},
   sharing: false
 });
