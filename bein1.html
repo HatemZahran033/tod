@@ -29,7 +29,16 @@ body {
   height: 100%;
 }
 
-/* تعديلات وضع ملء الشاشة ليبقى أفقي */
+/* إخفاء شريط الحالة في وضع ملء الشاشة */
+:fullscreen {
+  background-color: black;
+}
+
+:fullscreen::backdrop {
+  background-color: black;
+}
+
+/* إصلاح وضع ملء الشاشة ليبقى أفقي دائمًا */
 :fullscreen #player-container,
 :-webkit-full-screen #player-container,
 :-moz-full-screen #player-container,
@@ -41,7 +50,7 @@ body {
   left: 0 !important;
 }
 
-/* إصلاح لعرض الفيديو في WebView */
+/* إصلاح لعرض الفيديو */
 .jwplayer .jw-media video {
   position: absolute !important;
   top: 0 !important;
@@ -136,57 +145,62 @@ playerInstance.setup({
   sharing: false
 });
 
-// حل خاص لـ WebView في AppCreator24
+// حل خاص لـ AppCreator24 لإخفاء شريط الحالة
+function hideStatusBar() {
+  if (typeof Android !== 'undefined' && Android.fullScreen) {
+    Android.fullScreen();
+  } else {
+    // حل بديل لمتصفحات الويب
+    document.documentElement.style.overflow = 'hidden';
+    document.body.style.overflow = 'hidden';
+  }
+}
+
+// إدارة وضع ملء الشاشة
 function handleFullscreen() {
   var container = document.getElementById('player-container');
-  if (document.fullscreenElement || 
-      document.webkitFullscreenElement || 
-      document.mozFullScreenElement || 
-      document.msFullscreenElement) {
-    // وضع ملء الشاشة - التأكد من البقاء أفقي
-    container.style.width = '100vh';
-    container.style.height = '100vw';
-    container.style.transform = 'rotate(90deg) translateY(-100%)';
-    container.style.top = '0';
-    container.style.left = '0';
-    
-    // إعادة ضبط حجم الفيديو
+  
+  // التأكد من أن الاتجاه أفقي دائمًا
+  container.style.width = '100vh';
+  container.style.height = '100vw';
+  container.style.transform = 'rotate(90deg) translateY(-100%)';
+  container.style.top = '0';
+  container.style.left = '0';
+  
+  // إعادة ضبط حجم المشغل
+  setTimeout(function() {
     playerInstance.resize('100%', '100%');
-  } else {
-    adjustPlayerSize();
-  }
+  }, 100);
+  
+  // محاولة إخفاء شريط الحالة
+  hideStatusBar();
 }
 
 // ضبط حجم المشغل بعد التحميل
 playerInstance.on('ready', function() {
   adjustPlayerSize();
   
-  // مراقبة تغييرات وضع ملء الشاشة
-  document.addEventListener('fullscreenchange', handleFullscreen);
-  document.addEventListener('webkitfullscreenchange', handleFullscreen);
-  document.addEventListener('mozfullscreenchange', handleFullscreen);
-  document.addEventListener('MSFullscreenChange', handleFullscreen);
+  // مراقبة وضع ملء الشاشة
+  playerInstance.on('fullscreen', function(state) {
+    if (state.fullscreen) {
+      handleFullscreen();
+    } else {
+      adjustPlayerSize();
+    }
+  });
 });
 
-// ضبط الحجم عند تغيير اتجاه الشاشة
+// ضبط الحجم عند تغيير حجم الشاشة
 window.addEventListener('resize', adjustPlayerSize);
 
 function adjustPlayerSize() {
   var container = document.getElementById('player-container');
-  if (window.innerHeight > window.innerWidth) {
-    // الوضع الرأسي - تطبيق التدوير
-    container.style.width = '100vh';
-    container.style.height = '100vw';
-    container.style.transform = 'rotate(90deg) translateY(-100%)';
-    container.style.transformOrigin = 'left top';
-  } else {
-    // الوضع الأفقي - إزالة التحويلات
-    container.style.width = '100%';
-    container.style.height = '100%';
-    container.style.transform = 'none';
-  }
+  container.style.width = '100vh';
+  container.style.height = '100vw';
+  container.style.transform = 'rotate(90deg) translateY(-100%)';
+  container.style.top = '0';
+  container.style.left = '0';
   
-  // إعادة ضبط حجم المشغل
   setTimeout(function() {
     playerInstance.resize('100%', '100%');
   }, 100);
@@ -201,9 +215,7 @@ function lockLandscape() {
   } else {
     // حل بديل لـ WebView
     window.addEventListener('orientationchange', function() {
-      if (Math.abs(window.orientation) !== 90) {
-        adjustPlayerSize();
-      }
+      adjustPlayerSize();
     });
   }
 }
@@ -211,7 +223,16 @@ function lockLandscape() {
 window.addEventListener('load', function() {
   lockLandscape();
   adjustPlayerSize();
+  
+  // إخفاء شريط الحالة عند التحميل
+  hideStatusBar();
 });
+
+// مراقبة التغيرات في وضع ملء الشاشة
+document.addEventListener('fullscreenchange', handleFullscreen);
+document.addEventListener('webkitfullscreenchange', handleFullscreen);
+document.addEventListener('mozfullscreenchange', handleFullscreen);
+document.addEventListener('MSFullscreenChange', handleFullscreen);
 </script>
 
 </body>
