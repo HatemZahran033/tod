@@ -29,23 +29,10 @@ body {
   height: 100%;
 }
 
-/* تعديل وضع ملء الشاشة ليبقى أفقي */
-:-webkit-full-screen #player-container {
-  width: 100vh !important;
-  height: 100vw !important;
-  transform: rotate(90deg) translateY(-100%) !important;
-  top: 0 !important;
-  left: 0 !important;
-}
-
-:-moz-full-screen #player-container {
-  width: 100vh !important;
-  height: 100vw !important;
-  transform: rotate(90deg) translateY(-100%) !important;
-  top: 0 !important;
-  left: 0 !important;
-}
-
+/* تعديلات وضع ملء الشاشة ليبقى أفقي */
+:fullscreen #player-container,
+:-webkit-full-screen #player-container,
+:-moz-full-screen #player-container,
 :-ms-fullscreen #player-container {
   width: 100vh !important;
   height: 100vw !important;
@@ -54,12 +41,14 @@ body {
   left: 0 !important;
 }
 
-:fullscreen #player-container {
-  width: 100vh !important;
-  height: 100vw !important;
-  transform: rotate(90deg) translateY(-100%) !important;
+/* إصلاح لعرض الفيديو في WebView */
+.jwplayer .jw-media video {
+  position: absolute !important;
   top: 0 !important;
   left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: fill !important;
 }
 
 /* خلفية حاوية عناصر التحكم */
@@ -95,11 +84,6 @@ body {
 .jwplayer .jw-display-icon-container {
   background-color: rgba(0, 0, 0, 0.6);
   border-radius: 12px;
-}
-
-/* الفيديو يملأ الشاشة تمامًا */
-.jwplayer .jw-media video {
-  object-fit: fill !important;
 }
 </style>
 
@@ -152,22 +136,36 @@ playerInstance.setup({
   sharing: false
 });
 
-// إصلاح وضع ملء الشاشة ليبقى أفقي
-playerInstance.on('fullscreen', function(state) {
-  if (state.fullscreen) {
-    document.getElementById('player-container').style.width = '100vh';
-    document.getElementById('player-container').style.height = '100vw';
-    document.getElementById('player-container').style.transform = 'rotate(90deg) translateY(-100%)';
-    document.getElementById('player-container').style.top = '0';
-    document.getElementById('player-container').style.left = '0';
+// حل خاص لـ WebView في AppCreator24
+function handleFullscreen() {
+  var container = document.getElementById('player-container');
+  if (document.fullscreenElement || 
+      document.webkitFullscreenElement || 
+      document.mozFullScreenElement || 
+      document.msFullscreenElement) {
+    // وضع ملء الشاشة - التأكد من البقاء أفقي
+    container.style.width = '100vh';
+    container.style.height = '100vw';
+    container.style.transform = 'rotate(90deg) translateY(-100%)';
+    container.style.top = '0';
+    container.style.left = '0';
+    
+    // إعادة ضبط حجم الفيديو
+    playerInstance.resize('100%', '100%');
   } else {
     adjustPlayerSize();
   }
-});
+}
 
 // ضبط حجم المشغل بعد التحميل
 playerInstance.on('ready', function() {
   adjustPlayerSize();
+  
+  // مراقبة تغييرات وضع ملء الشاشة
+  document.addEventListener('fullscreenchange', handleFullscreen);
+  document.addEventListener('webkitfullscreenchange', handleFullscreen);
+  document.addEventListener('mozfullscreenchange', handleFullscreen);
+  document.addEventListener('MSFullscreenChange', handleFullscreen);
 });
 
 // ضبط الحجم عند تغيير اتجاه الشاشة
@@ -187,6 +185,11 @@ function adjustPlayerSize() {
     container.style.height = '100%';
     container.style.transform = 'none';
   }
+  
+  // إعادة ضبط حجم المشغل
+  setTimeout(function() {
+    playerInstance.resize('100%', '100%');
+  }, 100);
 }
 
 // محاولة قفل الشاشة في الوضع الأفقي
@@ -195,10 +198,20 @@ function lockLandscape() {
     screen.orientation.lock('landscape').catch(function(e) {
       console.log("Orientation lock not supported: ", e);
     });
+  } else {
+    // حل بديل لـ WebView
+    window.addEventListener('orientationchange', function() {
+      if (Math.abs(window.orientation) !== 90) {
+        adjustPlayerSize();
+      }
+    });
   }
 }
 
-window.addEventListener('load', lockLandscape);
+window.addEventListener('load', function() {
+  lockLandscape();
+  adjustPlayerSize();
+});
 </script>
 
 </body>
