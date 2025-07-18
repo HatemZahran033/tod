@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Storm Connect | كود التفعيل</title>
+  
+  <!-- استدعاء خط Cairo -->
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700&display=swap" rel="stylesheet">
+  
+  <!-- SweetAlert2 -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #222;
+      font-family: 'Cairo', sans-serif;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      background-color: #000;
+      padding: 30px 40px;
+      border-radius: 20px;
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.7);
+      max-width: 400px;
+      width: 65%;
+      text-align: center;
+      border: 1px solid #00e676;
+    }
+
+    .title {
+      font-size: 20px;
+      margin-bottom: 25px;
+      color: #00e676;
+    }
+
+    .code-box {
+      background-color: #2b2b2b;
+      border: 2px dashed #00c853;
+      padding: 15px;
+      font-size: 22px;
+      letter-spacing: 3px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      user-select: all;
+      
+    }
+
+    .copy-btn {
+      background: linear-gradient(45deg, #00e676, #00c853);
+      color: #000;
+      padding: 10px 25px;
+      font-size: 16px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.3s;
+      font-family: 'Cairo', sans-serif;
+    }
+
+    .copy-btn:hover {
+      opacity: 0.9;
+    }
+    
+    .swal2-confirm {
+      padding: 15px 55px !important;
+      font-size: 16px !important;
+      border-radius: 10px !important;
+    }
+    
+    /* حواف خضراء ورسمة محترفة للتنبيه */
+.swal-border-green {
+  border: 2px solid #00e676 !important;
+  border-radius: 15px !important;
+  padding: 10px !important;
+}
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="title">كود التفعيل الخاص بك</div>
+    <div class="code-box" id="activationCode">5060708090</div>
+    <button class="copy-btn" onclick="copyCode()">نسخ الكود</button>
+  </div>
+
+  <script>
+    function copyCode() {
+      const code = document.getElementById("activationCode").innerText;
+      navigator.clipboard.writeText(code).then(() => {
+        Swal.fire({
+  icon: 'success',
+  title: 'تم النسخ بنجاح',
+  text: '',
+  confirmButtonColor: '#00c853',
+  background: '#000',
+  color: '#fff',
+  customClass: {
+    popup: 'swal-border-green'
+  }
+});
+      });
+    }
+  </script>
+</body>
+</html>
