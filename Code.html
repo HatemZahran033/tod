@@ -2,12 +2,12 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Storm Connect | كود التفعيل</title>
-  
-  <!-- استدعاء خط Cairo -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Storm Connect</title>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700&display=swap" rel="stylesheet">
-  
+  <!-- ✅ أيقونة الصفحة (Favicon) -->
+  <link rel="icon" href="https://up6.cc/2025/07/175285383711171.png" type="image/png">
+
   <!-- SweetAlert2 -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
@@ -58,28 +58,35 @@
       user-select: all;
     }
 
-    .copy-btn {
+    .copy-btn,
+    .back-btn {
       background: linear-gradient(45deg, #00e676, #00c853);
       color: #000;
-      padding: 10px 25px;
+      padding: 12px;
       font-size: 16px;
       border: none;
       border-radius: 10px;
       cursor: pointer;
       transition: 0.3s;
       font-family: 'Cairo', sans-serif;
+      width: 100%;
+      box-sizing: border-box;
+      text-decoration: none;
+      display: block;
+      margin-bottom: 10px;
     }
 
-    .copy-btn:hover {
+    .copy-btn:hover,
+    .back-btn:hover {
       opacity: 0.9;
     }
-    
+
     .swal2-confirm {
       padding: 15px 55px !important;
       font-size: 16px !important;
       border-radius: 10px !important;
     }
-    
+
     .swal-border-green {
       border: 2px solid #00e676 !important;
       border-radius: 15px !important;
@@ -93,6 +100,7 @@
     <div class="title">كود التفعيل الخاص بك</div>
     <div class="code-box" id="activationCode">5060708090</div>
     <button class="copy-btn" onclick="copyCode()">نسخ الكود</button>
+    <a href="https://hatemzahran033.github.io/tod/StormConnect" class="back-btn">العودة لموقع التطبيق</a>
   </div>
 
   <script>
@@ -121,5 +129,6 @@
       });
     }
   </script>
+
 </body>
 </html>
