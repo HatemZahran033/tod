@@ -33,6 +33,12 @@
       width: 65%;
       text-align: center;
       border: 1px solid #00e676;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    .container.hidden {
+      opacity: 0;
+      visibility: hidden;
     }
 
     .title {
@@ -50,7 +56,6 @@
       border-radius: 12px;
       margin-bottom: 20px;
       user-select: all;
-      
     }
 
     .copy-btn {
@@ -75,17 +80,16 @@
       border-radius: 10px !important;
     }
     
-    /* حواف خضراء ورسمة محترفة للتنبيه */
-.swal-border-green {
-  border: 2px solid #00e676 !important;
-  border-radius: 15px !important;
-  padding: 10px !important;
-}
+    .swal-border-green {
+      border: 2px solid #00e676 !important;
+      border-radius: 15px !important;
+      padding: 10px !important;
+    }
   </style>
 </head>
 <body>
 
-  <div class="container">
+  <div class="container" id="mainContainer">
     <div class="title">كود التفعيل الخاص بك</div>
     <div class="code-box" id="activationCode">5060708090</div>
     <button class="copy-btn" onclick="copyCode()">نسخ الكود</button>
@@ -94,18 +98,26 @@
   <script>
     function copyCode() {
       const code = document.getElementById("activationCode").innerText;
+      const container = document.getElementById("mainContainer");
+
+      // إخفاء الحاوية
+      container.classList.add("hidden");
+
       navigator.clipboard.writeText(code).then(() => {
         Swal.fire({
-  icon: 'success',
-  title: 'تم النسخ بنجاح',
-  text: '',
-  confirmButtonColor: '#00c853',
-  background: '#000',
-  color: '#fff',
-  customClass: {
-    popup: 'swal-border-green'
-  }
-});
+          icon: 'success',
+          title: 'تم النسخ بنجاح',
+          text: '',
+          confirmButtonColor: '#00c853',
+          background: '#000',
+          color: '#fff',
+          customClass: {
+            popup: 'swal-border-green'
+          }
+        }).then(() => {
+          // إعادة إظهار الحاوية بعد إغلاق الرسالة
+          container.classList.remove("hidden");
+        });
       });
     }
   </script>
