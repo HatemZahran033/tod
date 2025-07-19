@@ -115,8 +115,8 @@ var getIMG = getParameterByName('img');
 
 <script>
   function setupPlayer() {
-    const safeOffset = 3 * 60 * 60 * 1000; // 3 ساعات للخلف
-    const duration = 6 * 60 * 60 * 1000;   // تغطية 6 ساعات
+    const safeOffset = 6 * 60 * 60 * 1000; // ⏪ 6 ساعات للخلف
+    const duration = 12 * 60 * 60 * 1000;  // ⏱️ تغطية 12 ساعة
 
     const startTimestamp = Date.now() - safeOffset;
     const endTimestamp = startTimestamp + duration;
