@@ -121,8 +121,7 @@ var getIMG = getParameterByName('img');
     const startTimestamp = Date.now() - safeOffset;
     const endTimestamp = startTimestamp + duration;
 
-    const baseURL = "https://todtv-live-spo-prod.akamaized.net/Content/Channel/svc-spo-hd-13-dt/DASH/hdntl=exp=1753225242~acl=*%2fContent%2fChannel%2fsvc-spo-hd-13-dt%2fDASH%2f*~id=ac831a66-bfba-4ff9-9b90-2c8c9f10ef8e~data=hdntl,aXA9MTU2LjE5OC4yMTMuMTcy~hmac=49e151e0ca69e400cd77b4ffb8b607fc34a4ff0377d9fa5f0bba5f01731b4f5e/playlist_ha.mpd";
-    
+    const baseURL = "https://todtv-live-spo-prod.akamaized.net/Content/Channel/svc-spo-hd-13-dt/DASH/hdntl=exp=1753574388~acl=*%2fContent%2fChannel%2fsvc-spo-hd-13-dt%2fDASH%2f*~id=ac831a66-bfba-4ff9-9b90-2c8c9f10ef8e~data=hdntl,aXA9MTU2LjE5OC4yMjQuODE~hmac=58852f0bdfd701d5f77cb86fc092b73cbd25b7af32c6f0b0c9f78ecaeddf3786/playlist_ha.mpd";    
     const fullURL = `${baseURL}?start=${startTimestamp}&end=${endTimestamp}`;
 
     jwplayer("player").setup({
