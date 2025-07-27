@@ -3,7 +3,65 @@
 <meta name="robots" content="noindex, nofollow" />
 <meta name="referrer" content="no-referrer" />
 <style>
-  
+  html, body {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: black;
+  touch-action: none;
+}
+
+#player-container {
+  width: 100vh;
+  height: 100vw;
+  transform: rotate(90deg);
+  transform-origin: center center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+}
+
+/* في وضع landscape الحقيقي */
+@media (orientation: landscape) {
+  #player-container {
+    transform: rotate(0deg);
+    width: 100vw;
+    height: 100vh;
+  }
+}
+
+.storm-text-watermark {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  z-index: 1000;
+  color: rgba(255, 255, 255, 0.7);
+  font-family: 'Arial', sans-serif;
+  font-size: 14px;
+  font-weight: bold;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+  padding: 5px 10px;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 4px;
+  display: inline-block;
+  white-space: nowrap;
+  line-height: 1.2;
+  max-width: 80%;
+  max-height: 30px;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+/* تخصيص مكان العلامة المائية لما الجهاز رأسي */
+@media (orientation: portrait) {
+  .storm-text-watermark {
+    top: auto;
+    bottom: 20px;
+    left: 20px;
+  }
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -108,10 +166,10 @@ var key2 = getParameterByName('key2');
 var getIMG = getParameterByName('img');
 </script>
 
-<div id="player"></div>
-
-<!-- العلامة المائية النصية العلوية فقط -->
-<div class="storm-text-watermark">STORM CONNECT</div>
+<div id="player-container">
+  <div id="player"></div>
+  <div class="storm-text-watermark">STORM CONNECT</div>
+</div>
 
 <script>
   function setupPlayer() {
