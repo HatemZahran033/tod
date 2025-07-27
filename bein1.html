@@ -62,6 +62,26 @@
   }
 }
 
+
+#player-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  translate: -50% -50%;
+  width: 100vw;
+  height: 100vh;
+}
+
+/* لما يكون الجهاز رأسي */
+@media (orientation: portrait) {
+  #player-container {
+    width: 100vh;
+    height: 100vw;
+    transform: rotate(90deg);
+    transform-origin: center center;
+  }
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -210,6 +230,20 @@ var getIMG = getParameterByName('img');
   setupPlayer();
   setInterval(setupPlayer, 50 * 60 * 1000);
 </script>
+
+<script>
+document.addEventListener("fullscreenchange", () => {
+  if (document.fullscreenElement) {
+    if (screen.orientation && screen.orientation.lock) {
+      screen.orientation.lock("landscape").catch(() => {});
+    }
+  }
+});
+
+
+</script>
+
+
 
 </body>
 </html>
