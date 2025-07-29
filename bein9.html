@@ -54,14 +54,13 @@ body {
   border-radius: 12px;
 }
 
-/* الفيديو يملأ الشاشة تمامًا */
 .jwplayer .jw-media video {
   position: absolute;
   top: 0;
   left: 0;
-  width: 100% !important;
-  height: 100% !important;
-  object-fit: fill !important;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
 }
 
 /* العلامة المائية النصية */
@@ -114,6 +113,28 @@ var getIMG = getParameterByName('img');
 <div class="storm-text-watermark">STORM CONNECT</div>
 
 <script>
+  function toggleAspectRatio(playerInstance) {
+    const video = document.querySelector(".jwplayer video");
+    const currentFit = video.style.objectFit;
+
+    if (currentFit === "fill") {
+      video.style.objectFit = "contain";
+    } else {
+      video.style.objectFit = "fill";
+    }
+  }
+
+  function addAspectButton(playerInstance) {
+    playerInstance.addButton(
+      "https://img.icons8.com/ios-glyphs/24/ffffff/resize.png", // أيقونة الأبعاد
+      "تبديل الأبعاد",
+      function () {
+        toggleAspectRatio(playerInstance);
+      },
+      "aspect-toggle"
+    );
+  }
+
   function setupPlayer() {
     const safeOffset = 6 * 60 * 60 * 1000; // ⏪ 6 ساعات للخلف
     const duration = 12 * 60 * 60 * 1000;  // ⏱️ تغطية 12 ساعة
@@ -121,11 +142,12 @@ var getIMG = getParameterByName('img');
     const startTimestamp = Date.now() - safeOffset;
     const endTimestamp = startTimestamp + duration;
 
-    const baseURL = "https://todtv-live-spo-prod.akamaized.net/Content/Channel/svc-spo-hd-16-dt/DASH/hdntl=exp=1753016319~acl=*%2fContent%2fChannel%2fsvc-spo-hd-16-dt%2fDASH%2f*~id=ac831a66-bfba-4ff9-9b90-2c8c9f10ef8e~data=hdntl,aXA9MTU2LjE5OC4yMzUuMjUz~hmac=0e515d5c81bbe442b48ea635e4cd03ffddd36e0c381d967b79112a8309753961/playlist_ha.mpd";
-    
+    const baseURL = "https://todtv-live-ent-prod.akamaized.net/Content/Channel/svc-spo-hd-38-dt/DASH/hdntl=exp=1753804256~acl=*%2fContent%2fChannel%2fsvc-spo-hd-38-dt%2fDASH%2f*~id=e17a1b39-a5f1-4dcd-b340-6be0f3df0b60~data=hdntl,aXA9MTU2LjE5OC4yMTIuMTEx~hmac=e31c27f91030b7db1462b67a139e702293a35771af3d530d7b73b12c513e400a/playlist_tv.mpd";
     const fullURL = `${baseURL}?start=${startTimestamp}&end=${endTimestamp}`;
 
-    jwplayer("player").setup({
+    const playerInstance = jwplayer("player");
+
+    playerInstance.setup({
       playlist: [{
         sources: [{
           default: false,
@@ -147,8 +169,27 @@ var getIMG = getParameterByName('img');
       cast: {},
       sharing: false
     });
+
+    // عند تحضير المشغل
+    playerInstance.on('ready', function () {
+      const video = document.querySelector(".jwplayer video");
+      if (video) {
+        video.style.objectFit = "fill"; // الوضع الافتراضي
+      }
+
+      addAspectButton(playerInstance); // إضافة زر الأبعاد
+    });
+
+    // عند بدء التشغيل فعلياً (يعيد تعيين fill)
+    playerInstance.on('play', function () {
+      const video = document.querySelector(".jwplayer video");
+      if (video) {
+        video.style.objectFit = "fill";
+      }
+    });
   }
 
+  // تشغيل المشغل أول مرة وتجديده كل 50 دقيقة
   setupPlayer();
   setInterval(setupPlayer, 50 * 60 * 1000);
 </script>
