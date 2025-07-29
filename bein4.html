@@ -113,31 +113,66 @@ var getIMG = getParameterByName('img');
 <div class="storm-text-watermark">STORM CONNECT</div>
 
 <script>
-  function toggleAspectRatio(playerInstance) {
-    const video = document.querySelector(".jwplayer video");
-    const currentFit = video.style.objectFit;
+  let currentFit = localStorage.getItem("videoFit") || "fill"; // استرجاع أو افتراضي
 
-    if (currentFit === "fill") {
-      video.style.objectFit = "contain";
-    } else {
-      video.style.objectFit = "fill";
+  function applyVideoFit() {
+    const video = document.querySelector(".jwplayer video");
+    if (video) {
+      video.style.objectFit = currentFit;
     }
+  }
+
+  function toggleAspectRatio() {
+    currentFit = currentFit === "fill" ? "contain" : "fill";
+    localStorage.setItem("videoFit", currentFit); // حفظ الوضع الجديد
+    applyVideoFit();
   }
 
   function addAspectButton(playerInstance) {
     playerInstance.addButton(
-      "https://img.icons8.com/ios-glyphs/24/ffffff/resize.png", // أيقونة الأبعاد
+      "https://img.icons8.com/ios-glyphs/24/ffffff/resize.png",
       "تبديل الأبعاد",
-      function () {
-        toggleAspectRatio(playerInstance);
-      },
+      toggleAspectRatio,
       "aspect-toggle"
     );
   }
 
+  function forceFitLoop() {
+    // تأكيد ضبط object-fit كل ثانية
+    setInterval(applyVideoFit, 1000);
+  }
+
+  function observeVideoChanges() {
+    const observer = new MutationObserver(() => {
+      applyVideoFit(); // أي تغيّر في DOM
+    });
+
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true
+    });
+  }
+
+  function setupFullscreenFix() {
+    const events = [
+      "fullscreenchange",
+      "webkitfullscreenchange",
+      "mozfullscreenchange",
+      "msfullscreenchange"
+    ];
+
+    events.forEach(event => {
+      document.addEventListener(event, () => {
+        setTimeout(() => {
+          applyVideoFit(); // بعد الدخول أو الخروج من fullscreen
+        }, 200);
+      });
+    });
+  }
+
   function setupPlayer() {
-    const safeOffset = 6 * 60 * 60 * 1000; // ⏪ 6 ساعات للخلف
-    const duration = 12 * 60 * 60 * 1000;  // ⏱️ تغطية 12 ساعة
+    const safeOffset = 6 * 60 * 60 * 1000;
+    const duration = 12 * 60 * 60 * 1000;
 
     const startTimestamp = Date.now() - safeOffset;
     const endTimestamp = startTimestamp + duration;
@@ -170,28 +205,21 @@ var getIMG = getParameterByName('img');
       sharing: false
     });
 
-    // عند تحضير المشغل
     playerInstance.on('ready', function () {
-      const video = document.querySelector(".jwplayer video");
-      if (video) {
-        video.style.objectFit = "fill"; // الوضع الافتراضي
-      }
-
-      addAspectButton(playerInstance); // إضافة زر الأبعاد
+      applyVideoFit();
+      addAspectButton(playerInstance);
     });
 
-    // عند بدء التشغيل فعلياً (يعيد تعيين fill)
-    playerInstance.on('play', function () {
-      const video = document.querySelector(".jwplayer video");
-      if (video) {
-        video.style.objectFit = "fill";
-      }
-    });
+    playerInstance.on('play', applyVideoFit);
+    playerInstance.on('fullscreen', applyVideoFit);
   }
 
-  // تشغيل المشغل أول مرة وتجديده كل 50 دقيقة
+  // تشغيل كل شيء
   setupPlayer();
-  setInterval(setupPlayer, 50 * 60 * 1000);
+  setInterval(setupPlayer, 50 * 60 * 1000); // إعادة التشغيل كل 50 دقيقة
+  observeVideoChanges();  // راقب تغيّرات DOM
+  setupFullscreenFix();   // دعم fullscreen
+  forceFitLoop();         // فرض مستمر كل ثانية
 </script>
 
 </body>
