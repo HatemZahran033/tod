@@ -177,7 +177,8 @@ var getIMG = getParameterByName('img');
     const startTimestamp = Date.now() - safeOffset;
     const endTimestamp = startTimestamp + duration;
 
-    const baseURL = "https://todtv-live-ent-prod.akamaized.net/Content/Channel/svc-spo-hd-38-dt/DASH/hdntl=exp=1753804256~acl=*%2fContent%2fChannel%2fsvc-spo-hd-38-dt%2fDASH%2f*~id=e17a1b39-a5f1-4dcd-b340-6be0f3df0b60~data=hdntl,aXA9MTU2LjE5OC4yMTIuMTEx~hmac=e31c27f91030b7db1462b67a139e702293a35771af3d530d7b73b12c513e400a/playlist_tv.mpd";
+    const baseURL = "https://todtv-live-spo-prod.akamaized.net/Content/Channel/svc-spo-hd-09-dt/DASH/playlist_ha.mpd?start=1753914000000&end=1753922400000&hdnts=st=1753914013~exp=1753914182~acl=*/Content/Channel/svc-spo-hd-09-dt/DASH/*~id=ec84cfcd-d92f-4365-aa29-502a17c07d0e~data=aXA9MTg1LjI3LjEzNC4xOTg~hmac=028a4806f1a7e22928474b4da648952e77751d54a0eae158f514aa035eecb578";
+    
     const fullURL = `${baseURL}?start=${startTimestamp}&end=${endTimestamp}`;
 
     const playerInstance = jwplayer("player");
