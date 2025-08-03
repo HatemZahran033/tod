@@ -1,0 +1,415 @@
+<html lang="ar">
+<head>
+<meta name="robots" content="noindex, nofollow" />
+<meta name="referrer" content="no-referrer" />
+<style>
+  
+body {
+  margin: 0;
+  padding: 0;
+  background-color: black;
+}
+
+#player {
+  width: 100vw;
+  height: 100vh;
+}
+
+/* خلفية حاوية عناصر التحكم */
+.jwplayer .jw-controlbar {
+  background-color: rgba(0, 0, 0, 0.8) !important;
+}
+
+/* لون الأزرار */
+.jwplayer .jw-icon {
+  color: #eee !important;
+}
+
+.jwplayer .jw-button-color:hover {
+  color: #e50914 !important;
+}
+
+/* لون شريط التقدم */
+.jwplayer .jw-progress {
+  background-color: red !important;
+}
+
+.jwplayer .jw-progress .jw-buffer {
+  background-color: rgba(255, 255, 255, 0.3) !important;
+}
+
+.jwplayer .jw-progress .jw-play-progress {
+  background-color: #r !important;
+}
+
+/* شكل النقطة في الشريط */
+.jwplayer .jw-slider-time .jw-knob {
+  background-color: red !important;
+  border: 2px solid red;
+}
+
+/* شكل زر التشغيل الكبير في المنتصف */
+.jwplayer .jw-display-icon-container {
+  background-color: rgba(0, 0, 0, 0.6);
+  border-radius: 12px;
+}
+
+.jwplayer .jw-media video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+}
+
+/* العلامة المائية النصية */
+.storm-text-watermark {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  z-index: 100;
+  color: rgba(255, 255, 255, 0.7);
+  font-family: 'Arial', sans-serif;
+  font-size: 14px;
+  font-weight: bold;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+  padding: 5px 10px;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.storm-text-watermark:hover {
+  color: rgba(255, 255, 255, 0.9);
+  background: rgba(0, 0, 0, 0.7);
+}
+</style>
+
+<script src="//ssl.p.jwpcdn.com/player/v/8.26.0/jwplayer.js"></script>
+<script>
+jwplayer.key = 'XSuP4qMl+9tK17QNb+4+th2Pm9AWgMO/cYH8CI0HGGr7bdjo';
+</script>
+</head>
+<body>
+
+<script>
+function getParameterByName(name) {
+  name = name.replace(/[]/, "\").replace(/[]/, "\");
+  var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+  results = regex.exec(location.search);
+  return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+}
+
+var get = getParameterByName('get');
+var key = getParameterByName('key');
+var key2 = getParameterByName('key2');
+var getIMG = getParameterByName('img');
+</script>
+
+<div id="player"></div>
+
+<!-- العلامة المائية النصية العلوية فقط -->
+<div class="storm-text-watermark">STORM CONNECT</div>
+
+<!-- Font & Font Awesome -->
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+    * {
+        font-family: 'Cairo', sans-serif;
+    }
+
+    #info-overlay {
+        position: fixed;
+        top: 0; left: 0;
+        width: 100vw; height: 100vh;
+        background: rgba(0,0,0,0.75);
+        z-index: 9998;
+        display: none;
+    }
+
+    #info-popup {
+        position: fixed;
+        top: 50%; left: 50%;
+        transform: translate(-50%, -50%);
+        width: 80%;
+        max-width: 400px;
+        background-color: #111;
+        color: #fff;
+        padding: 20px;
+        border-radius: 16px;
+        box-shadow: 0 0 20px rgba(0,0,0,0.9);
+        z-index: 9999;
+        display: none;
+        overflow-y: auto;
+        max-height: 85vh;
+        direction: rtl;
+        border: 1px solid #444;
+    }
+
+    #info-popup h3 {
+        margin-top: 0;
+        font-size: 22px;
+        color: #e50914;
+        text-align: center;
+        margin-bottom: 15px;
+        border-bottom: 1px solid #444;
+    }
+
+    .info-item {
+        background: #222;
+        padding: 12px 15px;
+        margin-bottom: 12px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        font-size: 15px;
+        gap: 10px;
+        border: 1px solid #444;
+        font-weight: bold;
+    }
+
+    .info-item i {
+        color: #e50914;
+        min-width: 20px;
+        text-align: center;
+        font-size:20px
+    }
+
+    #close-info-btn {
+        display: block;
+        width: 100%;
+        padding: 12px;
+        background-color: #e50914;
+        color: #fff;
+        font-size: 16px;
+        font-weight: bold;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        margin-top: 15px;
+    }
+
+    #close-info-btn:hover {
+        background-color: #e50914;
+    }
+</style>
+
+<!-- Overlay + Popup -->
+<div id="info-overlay"></div>
+<div id="info-popup">
+    <h3>About Storm Player</h3>
+
+    <div class="info-item">
+    <i class="fas fa-user-shield"></i>
+    مطور المشغل : 
+    <strong>
+        <a href="https://t.me/hatemzahran1" target="_blank" style="color: #1da1f2; text-decoration: none;">
+            Hatem Zahran
+        </a>
+    </strong>
+</div>
+
+    <div class="info-item">
+        <i class="fab fa-telegram-plane"></i>
+القناة الخاصة بنا علي التليجرام :
+        <a href="https://t.me/storm_connect" target="_blank" style="color:#1da1f2; text-decoration: none;">@storm_connect</a>
+    </div>
+
+    
+
+    <div class="info-item">
+        <i class="fas fa-ban"></i>
+هذا المشغل خاص بتطبيق (  Storm Connect ) غير مسموح بنشره أو استخدامه في تطبيق آخر
+    </div>
+
+    <div class="info-item">
+        <i class="fas fa-circle-info"></i>
+        يتم استخدام هذا المشغل لأغراض ترفيهية فقط
+    </div>
+
+    <button id="close-info-btn">إغلاق</button>
+</div>
+
+<script>
+    function showInfoPopup() {
+        document.getElementById("info-popup").style.display = "block";
+        document.getElementById("info-overlay").style.display = "block";
+    }
+
+    function closeInfoPopup() {
+        document.getElementById("info-popup").style.display = "none";
+        document.getElementById("info-overlay").style.display = "none";
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        document.getElementById("close-info-btn").addEventListener("click", closeInfoPopup);
+    });
+</script>
+
+<script>
+  let currentFit = localStorage.getItem("videoFit") || "fill"; // استرجاع أو افتراضي
+
+  function applyVideoFit() {
+    const video = document.querySelector(".jwplayer video");
+    if (video) {
+      video.style.objectFit = currentFit;
+    }
+  }
+
+  function toggleAspectRatio() {
+    currentFit = currentFit === "fill" ? "contain" : "fill";
+    localStorage.setItem("videoFit", currentFit); // حفظ الوضع الجديد
+    applyVideoFit();
+  }
+
+  function addAspectButton(playerInstance) {
+    playerInstance.addButton(
+      "https://img.icons8.com/ios-glyphs/24/ffffff/resize.png",
+      "تبديل الأبعاد",
+      toggleAspectRatio,
+      "aspect-toggle"
+    );
+  }
+
+  function forceFitLoop() {
+    // تأكيد ضبط object-fit كل ثانية
+    setInterval(applyVideoFit, 1000);
+  }
+  
+  
+  function addTelegramButton(playerInstance) {
+        playerInstance.addButton(
+            "https://img.icons8.com/ios-filled/25/ffffff/telegram-app.png",
+            "تابعنا على تليجرام",
+            () => {
+                const tgDomain = "storm_connect";
+                const telegramAppUrl = `tg://resolve?domain=${tgDomain}`;
+                const telegramWebUrl = `https://t.me/${tgDomain}`;
+
+                try {
+                    const a = document.createElement("a");
+                    a.href = telegramAppUrl;
+                    a.target = "_blank";
+                    a.rel = "noopener noreferrer";
+                    document.body.appendChild(a);
+                    a.click();
+
+                    setTimeout(() => {
+                        window.open(telegramWebUrl, "_blank");
+                    }, 2000);
+                } catch (e) {
+                    window.open(telegramWebUrl, "_blank");
+                }
+            },
+            "telegram-button"
+        );
+    }
+
+    function addInfoButton(playerInstance) {
+        playerInstance.addButton(
+            "https://img.icons8.com/ios-filled/24/ffffff/info.png",
+            "معلومات عن المشغل",
+            showInfoPopup,
+            "info-button"
+        );
+    }
+
+    function showInfoPopup() {
+        document.getElementById("info-popup").style.display = "block";
+        document.getElementById("info-overlay").style.display = "block";
+    }
+
+    function closeInfoPopup() {
+        document.getElementById("info-popup").style.display = "none";
+        document.getElementById("info-overlay").style.display = "none";
+    }
+
+  function observeVideoChanges() {
+    const observer = new MutationObserver(() => {
+      applyVideoFit(); // أي تغيّر في DOM
+    });
+
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true
+    });
+  }
+
+  function setupFullscreenFix() {
+    const events = [
+      "fullscreenchange",
+      "webkitfullscreenchange",
+      "mozfullscreenchange",
+      "msfullscreenchange"
+    ];
+
+    events.forEach(event => {
+      document.addEventListener(event, () => {
+        setTimeout(() => {
+          applyVideoFit(); // بعد الدخول أو الخروج من fullscreen
+        }, 200);
+      });
+    });
+  }
+
+  function setupPlayer() {
+    const safeOffset = 6 * 60 * 60 * 1000;
+    const duration = 12 * 60 * 60 * 1000;
+
+    const startTimestamp = Date.now() - safeOffset;
+    const endTimestamp = startTimestamp + duration;
+
+    const fullURL = "https://ev-fast-mpd.starzplayarabia.com/live/eds/CricLife2/DASH/CricLife2.mpd";
+    
+
+    const playerInstance = jwplayer("player");
+
+    playerInstance.setup({
+      playlist: [{
+        sources: [{
+          default: false,
+          type: "dash",
+          file: fullURL,
+          drm: {
+            clearkey: {
+                  "keyId": "48bef83b4c6a3c5189b01b0126210da4", 
+          "key": "bd085230b7b09e50954fe0af111a8a9f" 
+            }
+          },
+          label: "0"
+        }]
+      }],
+      width: "100%",
+      height: "100%",
+      autostart: false,
+      controls: true,
+      cast: {},
+      sharing: false
+    });
+
+    playerInstance.on('ready', function () {
+      applyVideoFit();
+      addAspectButton(playerInstance);
+      addTelegramButton(playerInstance);
+      addInfoButton(playerInstance); // ← زر المعلومات
+    });
+
+    playerInstance.on('play', applyVideoFit);
+    playerInstance.on('fullscreen', applyVideoFit);
+  }
+
+  // تشغيل كل شيء
+  setupPlayer();
+  setInterval(setupPlayer, 50 * 60 * 1000); // إعادة التشغيل كل 50 دقيقة
+  observeVideoChanges();  // راقب تغيّرات DOM
+  setupFullscreenFix();   // دعم fullscreen
+  forceFitLoop();         // فرض مستمر كل ثانية
+  
+  
+</script>
+
+</body>
+</html>
