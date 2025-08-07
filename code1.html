@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Storm Connect</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700&display=swap" rel="stylesheet">
+  <!-- ✅ أيقونة الصفحة (Favicon) -->
+  <link rel="icon" href="https://up6.cc/2025/07/175285383711171.png" type="image/png">
+
+  <!-- SweetAlert2 -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #222;
+      font-family: 'Cairo', sans-serif;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      background-color: #000;
+      padding: 30px 40px;
+      border-radius: 20px;
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.7);
+      max-width: 400px;
+      width: 65%;
+      text-align: center;
+      border: 1px solid #00e676;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    .container.hidden {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .title {
+      font-size: 20px;
+      margin-bottom: 25px;
+      color: #00e676;
+    }
+
+    .code-box {
+      background-color: #2b2b2b;
+      border: 2px dashed #00c853;
+      padding: 15px;
+      font-size: 22px;
+      letter-spacing: 3px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      user-select: all;
+    }
+
+    .copy-btn,
+    .back-btn {
+      background: linear-gradient(45deg, #00e676, #00c853);
+      color: #000;
+      padding: 12px;
+      font-size: 16px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.3s;
+      font-family: 'Cairo', sans-serif;
+      width: 100%;
+      box-sizing: border-box;
+      text-decoration: none;
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    .copy-btn:hover,
+    .back-btn:hover {
+      opacity: 0.9;
+    }
+
+    .swal2-confirm {
+      padding: 15px 55px !important;
+      font-size: 16px !important;
+      border-radius: 10px !important;
+    }
+
+    .swal-border-green {
+      border: 2px solid #00e676 !important;
+      border-radius: 15px !important;
+      padding: 10px !important;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container" id="mainContainer">
+    <div class="title">كود التفعيل الخاص بك</div>
+    <div class="code-box" id="activationCode">123012</div>
+    <button class="copy-btn" onclick="copyCode()">نسخ الكود</button>
+    <a href="https://hatemzahran033.github.io/tod/StormConnect" class="back-btn">العودة لموقع التطبيق</a>
+  </div>
+
+  <script>
+    function copyCode() {
+      const code = document.getElementById("activationCode").innerText;
+      const container = document.getElementById("mainContainer");
+
+      // إخفاء الحاوية
+      container.classList.add("hidden");
+
+      navigator.clipboard.writeText(code).then(() => {
+        Swal.fire({
+          icon: 'success',
+          title: 'تم النسخ بنجاح',
+          text: '',
+          confirmButtonColor: '#00c853',
+          background: '#000',
+          color: '#fff',
+          customClass: {
+            popup: 'swal-border-green'
+          }
+        }).then(() => {
+          // إعادة إظهار الحاوية بعد إغلاق الرسالة
+          container.classList.remove("hidden");
+        });
+      });
+    }
+  </script>
+
+</body>
+</html>
