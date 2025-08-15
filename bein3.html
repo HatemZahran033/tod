@@ -110,7 +110,7 @@ var getIMG = getParameterByName('img');
 <div id="player"></div>
 
 <!-- العلامة المائية النصية العلوية فقط -->
-<div class="storm-text-watermark">STORM CONNECT</div>
+<div class="storm-text-watermark">Yalla TV</div>
 
 <script>
   let currentFit = localStorage.getItem("videoFit") || "fill"; // استرجاع أو افتراضي
@@ -177,7 +177,7 @@ var getIMG = getParameterByName('img');
     const startTimestamp = Date.now() - safeOffset;
     const endTimestamp = startTimestamp + duration;
 
-    const baseURL = "https://todtv-live-ent-prod.akamaized.net/Content/Channel/svc-spo-hd-38-dt/DASH/hdntl=exp=1753804256~acl=*%2fContent%2fChannel%2fsvc-spo-hd-38-dt%2fDASH%2f*~id=e17a1b39-a5f1-4dcd-b340-6be0f3df0b60~data=hdntl,aXA9MTU2LjE5OC4yMTIuMTEx~hmac=e31c27f91030b7db1462b67a139e702293a35771af3d530d7b73b12c513e400a/playlist_tv.mpd";
+    const baseURL = "https://todtv-live-spo-prod.akamaized.net/Content/Channel/svc-spo-hd-10-dt/DASH/hdntl=exp=1755292092~acl=*%2fContent%2fChannel%2fsvc-spo-hd-10-dt%2fDASH%2f*~id=153916ea-9ba7-4b04-8c2c-9c246fb5198e~data=hdntl,aXA9MTU2LjE5OC4yMTYuMTU1~hmac=f2d8a94a5ef555febcfed9b3d24501a4ec7f8adc4677cb92a66ed93eca2f42c5/playlist_ha.mpd";
     const fullURL = `${baseURL}?start=${startTimestamp}&end=${endTimestamp}`;
 
     const playerInstance = jwplayer("player");
